@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cartera de Acciones</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Mi Cartera de Acciones</h1>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-message">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    
+    <form action="/add" method="POST">
+        <input type="text" name="company" placeholder="Empresa" required>
+        <input type="text" name="symbol" placeholder="Símbolo" required>
+        <input type="number" name="quantity" placeholder="Cantidad" required>
+        <input type="number" name="purchase_price" step="0.01" placeholder="Precio de compra" required>
+        <input type="number" name="current_price" step="0.01" placeholder="Precio actual" required>
+        <input type="date" name="purchase_date" required>
+        
+        <!-- Selector de tipo de transacción -->
+        <select name="transaction_type" required>
+            <option value="Compra">Compra</option>
+            <option value="Venta">Venta</option>
+        </select>
+        
+        <button type="submit">Agregar Transacción</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Empresa</th>
+            <th>Símbolo</th>
+            <th>Cantidad</th>
+            <th>Precio de Compra</th>
+            <th>Total Inversión</th>
+            <th>Precio Actual</th>
+            <th>Diferencia ($)</th>
+            <th>Diferencia (%)</th>
+            <th>Fecha de Compra</th>
+            <th>Días Transcurridos</th>
+            <th>Tipo</th> <!-- Nueva columna para mostrar el tipo de transacción -->
+            <th>Acciones</th>
+        </tr>
+        {% for stock in stocks %}
+        <tr>
+            <td>{{ stock.company }}</td>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.quantity }}</td>
+            <td>{{ stock.purchase_price }}</td>
+            <td>{{ stock.total_investment }}</td>
+            <td>{{ stock.current_price }}</td>
+            <td class="{{ 'positive' if stock.price_difference() > 0 else 'negative' }}">
+                {{ stock.price_difference() | round(2) }}
+            </td>
+            <td class="{{ 'positive' if stock.percentage_difference() > 0 else 'negative' }}">
+                {{ stock.percentage_difference() | round(2) }}%
+            </td>
+            <td>{{ stock.purchase_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ stock.days_elapsed() }}</td>
+            <td>{{ stock.transaction_type }}</td> <!-- Mostrar el tipo de transacción -->
+            <td>
+                <a href="{{ url_for('delete_stock', id=stock.id) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar esta transacción?');">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

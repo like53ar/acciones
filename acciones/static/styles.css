@@ -1,0 +1,110 @@
+/* Estilo para el contenedor principal y el título */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2em;
+}
+
+/* Estilo para los mensajes flash */
+.flash-message {
+    color: green;
+    background-color: #e6ffed;
+    border: 1px solid green;
+    padding: 10px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* Estilo general para los inputs y el selector */
+form input[type="text"],
+form input[type="number"],
+form input[type="date"],
+form select,
+form button {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: calc(100% - 20px);
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+/* Estilo específico para el selector */
+form select {
+    appearance: none; /* Oculta el ícono del selector para personalizar */
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    padding-right: 20px; /* Espacio para el ícono personalizado */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23333' d='M10 12l5-5H5z'/%3E%3C/svg%3E"); /* Ícono de flecha */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+/* Estilo para el botón de submit */
+form button {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para la tabla */
+table {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para las diferencias en ganancias y pérdidas */
+.positive {
+    color: green;
+    font-weight: bold;
+}
+
+.negative {
+    color: red;
+    font-weight: bold;
+}
