@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acciones Ordenadas Alfabéticamente</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Acciones Ordenadas Alfabéticamente</h1>
+
+    <table>
+        <tr>
+            <th>Empresa</th>
+            <th>Símbolo</th>
+            <th>Cantidad</th>
+            <th>Precio de Compra</th>
+            <th>Total Inversión</th>
+            <th>Precio Actual</th>
+            <th>Diferencia ($)</th>
+            <th>Diferencia (%)</th>
+            <th>Fecha de Compra</th>
+            <th>Días Transcurridos</th>
+            <th>Tipo</th>
+        </tr>
+
+        {% set current_company = None %}
+        {% set subtotal_quantity = 0 %}
+        {% set subtotal_investment = 0 %}
+        {% set subtotal_current_value = 0 %}
+        
+        {% for stock in stocks %}
+            {% if stock.company != current_company %}
+                {% if current_company is not none %}
+                    <tr>
+                        <td colspan="2"><strong>Subtotal {{ current_company }}</strong></td>
+                        <td>{{ subtotal_quantity }}</td>
+                        <td></td>
+                        <td>{{ subtotal_investment | round(2) }}</td>
+                        <td></td>
+                        <td>{{ subtotal_current_value | round(2) }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+                {% set current_company = stock.company %}
+                {% set subtotal_quantity = stock.quantity %}
+                {% set subtotal_investment = stock.total_investment %}
+                {% set subtotal_current_value = (stock.current_price * stock.quantity) %}
+            {% else %}
+                {% set subtotal_quantity = subtotal_quantity + stock.quantity %}
+                {% set subtotal_investment = subtotal_investment + stock.total_investment %}
+                {% set subtotal_current_value = subtotal_current_value + (stock.current_price * stock.quantity) %}
+            {% endif %}
+            
+            <tr>
+                <td>{{ stock.company }}</td>
+                <td>{{ stock.symbol }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td>{{ stock.purchase_price }}</td>
+                <td>{{ stock.total_investment }}</td>
+                <td>{{ stock.current_price }}</td>
+                <td class="{{ 'positive' if stock.price_difference() > 0 else 'negative' }}">
+                    {{ stock.price_difference() | round(2) }}
+                </td>
+                <td class="{{ 'positive' if stock.percentage_difference() > 0 else 'negative' }}">
+                    {{ stock.percentage_difference() | round(2) }}%
+                </td>
+                <td>{{ stock.purchase_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ stock.days_elapsed() }}</td>
+                <td>{{ stock.transaction_type }}</td>
+            </tr>
+        {% endfor %}
+        
+        <!-- Imprimir el subtotal final de la última empresa -->
+        {% if current_company is not none %}
+            <tr>
+                <td colspan="2"><strong>Subtotal {{ current_company }}</strong></td>
+                <td>{{ subtotal_quantity }}</td>
+                <td></td>
+                <td>{{ subtotal_investment | round(2) }}</td>
+                <td></td>
+                <td>{{ subtotal_current_value | round(2) }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endif %}
+    </table>
+    <a href="{{ url_for('index') }}"><button>Volver a la Cartera</button></a>
+</body>
+</html>

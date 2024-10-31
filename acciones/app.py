@@ -62,6 +62,16 @@ def delete_stock(id):
     flash('Transacción eliminada correctamente')
     return redirect(url_for('index'))
 
+@app.route('/list_alpha')
+def list_alpha():
+    stocks = Stock.query.order_by(Stock.company).all()  # Ordenar por nombre de empresa
+    return render_template('portfolio_alpha.html', stocks=stocks)
+
+@app.route('/list_date')
+def list_date():
+    stocks = Stock.query.order_by(Stock.purchase_date).all()  # Ordenar por fecha de compra
+    return render_template('portfolio_date.html', stocks=stocks)
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

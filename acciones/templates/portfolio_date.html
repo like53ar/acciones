@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Acciones por Fecha</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Listado de Acciones por Fecha</h1>
+    <table>
+        <tr>
+            <th>Empresa</th>
+            <th>Símbolo</th>
+            <th>Cantidad</th>
+            <th>Precio de Compra</th>
+            <th>Total Inversión</th>
+            <th>Precio Actual</th>
+            <th>Diferencia ($)</th>
+            <th>Diferencia (%)</th>
+            <th>Fecha de Compra</th>
+            <th>Días Transcurridos</th>
+            <th>Tipo</th>
+        </tr>
+        {% for stock in stocks %}
+        <tr>
+            <td>{{ stock.company }}</td>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.quantity }}</td>
+            <td>{{ stock.purchase_price }}</td>
+            <td>{{ stock.total_investment }}</td>
+            <td>{{ stock.current_price }}</td>
+            <td class="{{ 'positive' if stock.price_difference() > 0 else 'negative' }}">
+                {{ stock.price_difference() | round(2) }}
+            </td>
+            <td class="{{ 'positive' if stock.percentage_difference() > 0 else 'negative' }}">
+                {{ stock.percentage_difference() | round(2) }}%
+            </td>
+            <td>{{ stock.purchase_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ stock.days_elapsed() }}</td>
+            <td>{{ stock.transaction_type }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}"><button>Regresar a la Cartera</button></a>
+</body>
+</html>

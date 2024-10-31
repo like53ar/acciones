@@ -108,3 +108,25 @@ tr:hover {
     color: red;
     font-weight: bold;
 }
+/* Estilo para el grupo de botones */
+.button-group {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.button {
+    display: inline-block;
+    background-color: #007BFF; /* Color azul */
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none; /* Sin subrayado */
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo para los botones al pasar el ratón */
+.button:hover {
+    background-color: #0056b3; /* Color azul más oscuro */
+}

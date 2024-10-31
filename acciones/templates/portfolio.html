@@ -36,6 +36,12 @@
         <button type="submit">Agregar Transacción</button>
     </form>
 
+    <!-- Nuevos botones para listar acciones -->
+    <div class="button-group">
+        <a href="{{ url_for('list_alpha') }}" class="button">Listar Acciones Alfabéticamente</a>
+        <a href="{{ url_for('list_date') }}" class="button">Listar Acciones por Fecha</a>
+    </div>
+
     <table>
         <tr>
             <th>Empresa</th>
@@ -48,7 +54,7 @@
             <th>Diferencia (%)</th>
             <th>Fecha de Compra</th>
             <th>Días Transcurridos</th>
-            <th>Tipo</th> <!-- Nueva columna para mostrar el tipo de transacción -->
+            <th>Tipo</th>
             <th>Acciones</th>
         </tr>
         {% for stock in stocks %}
@@ -67,7 +73,7 @@
             </td>
             <td>{{ stock.purchase_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ stock.days_elapsed() }}</td>
-            <td>{{ stock.transaction_type }}</td> <!-- Mostrar el tipo de transacción -->
+            <td>{{ stock.transaction_type }}</td>
             <td>
                 <a href="{{ url_for('delete_stock', id=stock.id) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar esta transacción?');">Eliminar</a>
             </td>
